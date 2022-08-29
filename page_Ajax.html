@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>AJAX 的網頁</title>
+        <script type="text/javascript">
+		// https://www.youtube.com/watch?v=OkphAk_cWPM&list=PL-g0fdC5RMbpqZ0bmvJTgVTS4tS3txRVp&index=23
+            function getData(pageName){
+                // JavaScript 內建的 XMLHttpRequest 物件，專門用來和伺服器做連線
+                var req = new XMLHttpRequest();
+                req.open("get","http://127.0.0.1:8887/" + pageName); // 設定連線的方法 get, 連線的網址
+                
+                /*
+                req.onload = function() { // load 事件，偵測連線的狀態是否完成
+                    // 連線完成，觸發 load 事件，做連線後的處理
+                    //alert(this.responseText);
+                    var content = document.getElementById("content");
+                    content.innerHTML = this.responseText; 
+                };
+                */
+                
+                var handler = function() { // 準備一個事件處理器 (對應事件的函式)
+                    var content = document.getElementById("content");
+                    content.innerHTML = this.responseText; 
+                };
+                req.addEventListener("load" /* 事件的名稱 */, handler);
+
+                req.send(); // 送出連線
+            }
+        </script>
+    </head>
+    <!-- default 給一個預先載入的網頁 -->
+    <body onload="getData('popular_Ajax.html');"> 
+        <div>
+            <span onclick="getData('popular_Ajax.html');">熱門</span>
+            <span onclick="getData('latest_Ajax.html');">最新</span>
+        </div>
+        <hr/>
+        <div id="content"></div>
+
+
+    </body>
+</html>
